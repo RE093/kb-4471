@@ -52,8 +52,15 @@ export function uniqueById(reports: Report[]): Report[] {
   return [...new Map(reports.map((r) => [r.id, r])).values()];
 }
 
+// The desk's read of a report (desk-notes.json) outranks its tenant: a one-day move is not a flipped month.
+export type Problem = Cause | 'one-day' | 'unplaced';
+
+export function problemOf(r: Report, t: Tenant | undefined, oneDayMove: readonly string[]): Problem {
+  return oneDayMove.includes(r.id) ? 'one-day' : (causeOf(r, t) ?? 'unplaced');
+}
+
 export type CauseGroup = {
-  cause: Cause | 'unplaced';
+  cause: Problem;
   reports: Report[];
   // What intake tagged these reports as: tag → count.
   taggedAs: Record<string, number>;
@@ -63,10 +70,14 @@ export type CauseGroup = {
   mergedInto: number[];
 };
 
-export function groupByCause(reports: Report[], tenantOf: (r: Report) => Tenant | undefined): CauseGroup[] {
+export function groupByCause(
+  reports: Report[],
+  tenantOf: (r: Report) => Tenant | undefined,
+  oneDayMove: readonly string[] = [],
+): CauseGroup[] {
   const byCause = new Map<CauseGroup['cause'], Report[]>();
   for (const r of reports) {
-    const cause = causeOf(r, tenantOf(r)) ?? 'unplaced';
+    const cause = problemOf(r, tenantOf(r), oneDayMove);
     byCause.set(cause, [...(byCause.get(cause) ?? []), r]);
   }
   return [...byCause.entries()]

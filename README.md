@@ -34,3 +34,13 @@ Support desk. Decision records: whoever signed them.
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
+
+## Build
+
+`pnpm install`, then `pnpm build` (static site in `build/`) or `pnpm dev`. Added on 2026-10-28 so the pages can be rendered.
+
+## #4471 split
+
+- Page: `src/routes/kb/incidents/4471-split/+page.svx` (signed RE093)
+- As the desk sees it: `rendered/4471-split.html` and `rendered/4471-split.jpg`
+- Tickets: [#1 parser](https://github.com/RE093/kb-4471/issues/1), [#2 hint](https://github.com/RE093/kb-4471/issues/2), [#3 one-day](https://github.com/RE093/kb-4471/issues/3)

@@ -1,0 +1,62 @@
+---
+layout: runbook
+title: '#4471 split · three problems, three tickets'
+owner: RE093
+status: open
+reviewed: 2026-10-28
+signature: RE093
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) says one issue, one fix queued. Its own table disagrees: the
+reports merged into it have more than one cause, and only one of them has a ticket. This page
+splits #4471 by what each report shows, and gives every problem its own ticket.
+
+<Callout kind="warn">
+The queued parser fix closes only the parser row. The other rows stay broken after it ships.
+</Callout>
+
+## The problems
+
+<ProblemTable
+  ticket={4471}
+  tickets={{
+    parser: 'https://github.com/RE093/kb-4471/issues/1',
+    hint: 'https://github.com/RE093/kb-4471/issues/2',
+    'one-day': 'https://github.com/RE093/kb-4471/issues/3',
+  }}
+/>
+
+- **`parser`**: the shared parser reads every date month first, and every tenant on file
+  writes the day first. Day and month swap.
+- **`hint`**: booking-v3's form prints `MM/DD/YYYY` under its date field, then reads the
+  input day first. People type what the hint says. A parser fix does not touch it.
+- **`one-day`**: the date moves by one day, not by a swapped month, and one meeting landed on
+  different days for people in different time zones. The desk already noted these
+  (`desk-notes.json`); the old table still filed them under `parser` by tenant.
+
+## How the rows are counted
+
+The tenant decides the cause, not the intake tag: intake guesses from the reporter's browser,
+and its tags disagree with the cause in both directions (the "tagged as" column). A report the
+desk read as a one-day move is counted there, whatever its tenant. The export repeats some
+reports across overlapping pages; each id counts once.
+
+## Why they were merged
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject line alone, and every
+row above has the same kind of subject: "wrong day", "date is wrong". Matching subjects say
+two reports sound alike, not that they share a cause. Its consequence, "engineering merges them
+later", ran the other way here: different causes ended up in one ticket and never came apart.
+
+## Lessons
+
+- Before marking a big ticket known, check that one fix closes every report in it.
+- Count by cause, not by subject or intake tag.
+
+<RenderStamp {signature} />
