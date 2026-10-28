@@ -4,7 +4,7 @@ title: '#4471 split · three problems, three tickets'
 owner: RE093
 status: closed
 reviewed: 2026-10-28
-signature: RE093
+signature: v1.eyJzdWIiOiI1Nzk1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMTEzNjQsImV4cCI6MTc5MzI5Nzc2NH0.D0b2HyHcIEMeeaeFji6H3OKxz0xQ8XHIskKZO6i-XKc
 ---
 
 <script>
