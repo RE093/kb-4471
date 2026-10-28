@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 split · three problems, three tickets'
 owner: RE093
-status: open
+status: closed
 reviewed: 2026-10-28
 signature: RE093
 ---
@@ -17,8 +17,9 @@ signature: RE093
 reports merged into it have more than one cause, and only one of them has a ticket. This page
 splits #4471 by what each report shows, and gives every problem its own ticket.
 
-<Callout kind="warn">
-The queued parser fix closes only the parser row. The other rows stay broken after it ships.
+<Callout>
+Closed. Engineering closed #4471 on 5 October: parser fixed, hint won't fix (booking-v3 form
+retired). All three tickets below are closed.
 </Callout>
 
 ## The problems
@@ -39,6 +40,16 @@ The queued parser fix closes only the parser row. The other rows stay broken aft
 - **`one-day`**: the date moves by one day, not by a swapped month, and one meeting landed on
   different days for people in different time zones. The desk already noted these
   (`desk-notes.json`); the old table still filed them under `parser` by tenant.
+
+## Outcome
+
+| ticket | problem | engineering, 5 Oct |
+|---|---|---|
+| [#1](https://github.com/RE093/kb-4471/issues/1) | `parser` | fixed: `fix(dates): parse dd/mm for eu locales` |
+| [#2](https://github.com/RE093/kb-4471/issues/2) | `hint` | won't fix: booking-v3 form retired |
+| [#3](https://github.com/RE093/kb-4471/issues/3) | `one-day` | closed with #4471; no fix named |
+
+If one-day or time zone reports come in again, reopen #3: neither change above touches it.
 
 ## How the rows are counted
 
